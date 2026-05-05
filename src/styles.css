@@ -347,6 +347,37 @@ textarea:focus {
   gap: 14px;
 }
 
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.overview-tile {
+  text-align: left;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(126, 91, 59, 0.08);
+  background: var(--cream);
+  display: grid;
+  gap: 8px;
+  color: #4f3928;
+}
+
+.overview-tile:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(94, 63, 20, 0.08);
+}
+
+.overview-tile strong,
+.overview-tile span {
+  display: block;
+}
+
+.overview-tile span {
+  color: var(--ink-soft);
+}
+
 .menu-item,
 .request-card,
 .mini-card,
@@ -614,7 +645,8 @@ textarea:focus {
   .menu-grid,
   .network-grid,
   .workspace-side,
-  .app-control-grid {
+  .app-control-grid,
+  .overview-grid {
     grid-template-columns: 1fr;
   }
 
