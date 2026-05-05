@@ -1,11 +1,13 @@
 import { useState } from "react";
 import {
   activityFeed,
+  appControls,
   cooks,
   customers,
   initialCustomRequests,
   initialFoods,
   initialOrders,
+  users,
 } from "./data/dashboardData";
 
 const orderFlow = ["placed", "accepted", "cooking", "picked up", "delivered"];
@@ -15,6 +17,8 @@ const navItems = [
   { id: "menu", label: "Menu" },
   { id: "requests", label: "Custom requests" },
   { id: "orders", label: "Orders" },
+  { id: "users", label: "Users" },
+  { id: "app", label: "App control" },
   { id: "network", label: "Network" },
 ];
 
@@ -72,7 +76,7 @@ function StatCard({ value, label, helper, tone = "warm" }) {
   );
 }
 
-function App() {
+export default function App() {
   const [activeView, setActiveView] = useState("overview");
   const [foods, setFoods] = useState(initialFoods);
   const [customRequests, setCustomRequests] = useState(initialCustomRequests);
@@ -183,10 +187,13 @@ function App() {
         <header className="hero">
           <div>
             <span className="eyebrow">Control center</span>
-            <h2>One dashboard to run menu, orders, requests, cooks, and customer activity.</h2>
+            <h2>
+              One dashboard to run menu, orders, requests, users, and app
+              operations.
+            </h2>
             <p>
-              This view is now broader than a seller-only page, so the dashboard
-              can handle most day-to-day platform operations from one place.
+              This dashboard now covers both user handling and app handling, so
+              it can act as the main control panel for the full platform.
             </p>
           </div>
           <div className="hero-insights">
@@ -222,9 +229,9 @@ function App() {
             tone="cream"
           />
           <StatCard
-            value={customers.length}
-            label="Customers"
-            helper="Tracked regular buyers"
+            value={users.length}
+            label="Users"
+            helper="Customers and cooks"
             tone="soft"
           />
         </section>
@@ -313,7 +320,9 @@ function App() {
                         <div className="menu-copy">
                           <div className="menu-topline">
                             <h3>{food.name}</h3>
-                            <span className={`status-chip ${statusClass(food.status)}`}>
+                            <span
+                              className={`status-chip ${statusClass(food.status)}`}
+                            >
                               {food.status}
                             </span>
                           </div>
@@ -360,14 +369,18 @@ function App() {
                       <div className="button-row">
                         <button
                           className="secondary-button"
-                          onClick={() => updateRequestStatus(request.id, "Rejected")}
+                          onClick={() =>
+                            updateRequestStatus(request.id, "Rejected")
+                          }
                           type="button"
                         >
                           Reject
                         </button>
                         <button
                           className="primary-button"
-                          onClick={() => updateRequestStatus(request.id, "Accepted")}
+                          onClick={() =>
+                            updateRequestStatus(request.id, "Accepted")
+                          }
                           type="button"
                         >
                           Accept
@@ -398,7 +411,9 @@ function App() {
                       <span>#{order.id}</span>
                       <span>{order.customerName}</span>
                       <span>
-                        <b className={`status-dot ${statusClass(order.status)}`} />
+                        <b
+                          className={`status-dot ${statusClass(order.status)}`}
+                        />
                         {order.status}
                       </span>
                       <span>{formatPrice(order.total)}</span>
@@ -410,9 +425,67 @@ function App() {
                           onClick={() => advanceOrderStatus(order.id)}
                           type="button"
                         >
-                          {order.status === "delivered" ? "Completed" : "Advance"}
+                          {order.status === "delivered"
+                            ? "Completed"
+                            : "Advance"}
                         </button>
                       </span>
+                    </article>
+                  ))}
+                </div>
+              </SectionCard>
+            )}
+
+            {(activeView === "overview" || activeView === "users") && (
+              <SectionCard
+                title="User management"
+                subtitle="Handle customers and home cooks from one screen."
+              >
+                <div className="order-table">
+                  <div className="table-head user-table">
+                    <span>User</span>
+                    <span>Role</span>
+                    <span>Status</span>
+                    <span>Joined</span>
+                    <span>Orders</span>
+                    <span>Action</span>
+                  </div>
+                  {users.map((user) => (
+                    <article className="table-row user-table" key={user.id}>
+                      <span>{user.name}</span>
+                      <span>{user.role}</span>
+                      <span>
+                        <b className={`status-dot ${statusClass(user.status)}`} />
+                        {user.status}
+                      </span>
+                      <span>{user.joined}</span>
+                      <span>{user.orders}</span>
+                      <span>
+                        <button className="secondary-button compact" type="button">
+                          View
+                        </button>
+                      </span>
+                    </article>
+                  ))}
+                </div>
+              </SectionCard>
+            )}
+
+            {(activeView === "overview" || activeView === "app") && (
+              <SectionCard
+                title="App management"
+                subtitle="Control platform-level settings and operational tools."
+              >
+                <div className="app-control-grid">
+                  {appControls.map((item) => (
+                    <article className="control-card" key={item.title}>
+                      <div>
+                        <h3>{item.title}</h3>
+                        <p>{item.description}</p>
+                      </div>
+                      <button className="primary-button compact" type="button">
+                        {item.action}
+                      </button>
                     </article>
                   ))}
                 </div>
@@ -433,10 +506,12 @@ function App() {
                           <div>
                             <strong>{cook.name}</strong>
                             <p>
-                              {cook.area} • {cook.rating} rating • {cook.liveItems} live items
+                              {cook.area} | {cook.rating} rating | {cook.liveItems} live items
                             </p>
                           </div>
-                          <span className={`status-chip ${statusClass(cook.status)}`}>
+                          <span
+                            className={`status-chip ${statusClass(cook.status)}`}
+                          >
                             {cook.status}
                           </span>
                         </article>
@@ -452,7 +527,7 @@ function App() {
                           <div>
                             <strong>{customer.name}</strong>
                             <p>
-                              {customer.location} • {customer.segment}
+                              {customer.location} | {customer.segment}
                             </p>
                           </div>
                           <span>{customer.orders} orders</span>
@@ -516,7 +591,10 @@ function App() {
                 <div className="priority-item">
                   <strong>Low stock warning</strong>
                   <span>
-                    {foods.filter((item) => item.status === "Low stock").length} dishes need refill
+                    {
+                      foods.filter((item) => item.status === "Low stock").length
+                    }{" "}
+                    dishes need refill
                   </span>
                 </div>
                 <div className="priority-item">
@@ -531,5 +609,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

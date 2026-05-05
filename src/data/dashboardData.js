@@ -145,6 +145,41 @@ export const customers = [
   },
 ];
 
+export const users = [
+  {
+    id: "usr1",
+    name: "Nadia Rahman",
+    role: "Customer",
+    status: "Active",
+    joined: "May 1, 2026",
+    orders: 24,
+  },
+  {
+    id: "usr2",
+    name: "Sharmeen Kitchen",
+    role: "Home cook",
+    status: "Verified",
+    joined: "Apr 22, 2026",
+    orders: 81,
+  },
+  {
+    id: "usr3",
+    name: "Aunty Runa",
+    role: "Home cook",
+    status: "Busy",
+    joined: "Apr 18, 2026",
+    orders: 66,
+  },
+  {
+    id: "usr4",
+    name: "Tania Ahmed",
+    role: "Customer",
+    status: "Active",
+    joined: "May 3, 2026",
+    orders: 9,
+  },
+];
+
 export const cooks = [
   {
     id: "cook1",
@@ -177,4 +212,27 @@ export const activityFeed = [
   "Custom request req3 arrived from Rafi Islam.",
   "Lunch Box Special sold 22 portions today.",
   "Paratha and Egg Bhuna is running low on stock.",
+];
+
+export const appControls = [
+  {
+    title: "Delivery coverage",
+    description: "Manage active delivery zones and service visibility.",
+    action: "Update zones",
+  },
+  {
+    title: "Promotions",
+    description: "Control coupons, homepage highlights, and campaign timing.",
+    action: "Manage offers",
+  },
+  {
+    title: "Content moderation",
+    description: "Review food listings, cook profiles, and flagged requests.",
+    action: "Review queue",
+  },
+  {
+    title: "System settings",
+    description: "Adjust payment, order flow, and notification preferences.",
+    action: "Open settings",
+  },
 ];
